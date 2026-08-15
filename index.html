@@ -387,14 +387,15 @@ body {
 
 .section { margin-top: 40px; }
 .sec-head {
-  display: flex; align-items: center; justify-content: center;
+  display: block;
   font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", Georgia, serif;
   font-size: 17.5px; font-weight: normal;
-  letter-spacing: .12em;
+  line-height: 1.8; letter-spacing: .08em;
   color: #a96e6e;
   text-align: center;
+  text-wrap: balance;
 }
-.sec-head .orn { color: #d9a5a5; font-size: 11px; margin: 0 9px; }
+.sec-head .orn { color: #d9a5a5; font-size: 11px; margin: 0 7px; vertical-align: .08em; }
 .sec-head::after {
   content: ""; display: block; width: 58px; height: 1px;
   margin: 11px auto 16px;
@@ -426,7 +427,8 @@ p.body:last-child { margin-bottom: 0; }
 .sign-main {
   font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", Georgia, serif;
   font-size: clamp(27px, 6.5vw, 37px);
-  letter-spacing: .24em; text-indent: .24em;
+  display: inline-block;
+  letter-spacing: .14em; text-indent: 0; padding-left: .14em;
   color: #c27070;
   animation: breathe 3.6s ease-in-out infinite;
 }
@@ -480,6 +482,16 @@ p.body:last-child { margin-bottom: 0; }
 @media (max-width: 430px) {
   .vertical-verse { font-size: 10.5px; letter-spacing: .18em; padding-inline: 5px; }
   .title-aureole { width: 84vw; }
+  .sec-head { font-size: 15.5px; line-height: 1.75; letter-spacing: .035em; padding: 0 2px; }
+  .sec-head .orn { margin: 0 3px; font-size: 9px; }
+  .epigraph { font-size: 13px; line-height: 2.05; letter-spacing: .07em; }
+  .sign-main { width: 100%; padding-left: .14em; text-align: center; }
+}
+
+@media (max-width: 350px) {
+  .sec-head { font-size: 14.5px; letter-spacing: 0; }
+  .sec-head .orn { display: none; }
+  .epigraph { font-size: 12.2px; letter-spacing: .025em; }
 }
 </style>
 </head>
