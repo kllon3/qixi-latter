@@ -818,6 +818,7 @@ p.body:last-child { margin-bottom: 0; }
 (function () {
   'use strict';
   var PASS = 'yafei';
+  var EARLY_PASS = '337722';
   var cover = document.getElementById('cover');
   var modal = document.getElementById('pw-modal');
   var letter = document.getElementById('letter');
@@ -863,7 +864,7 @@ p.body:last-child { margin-bottom: 0; }
 
   function tryEarlyOpen() {
     var value = (gatePass.value || '').trim().toLowerCase();
-    if (value === PASS) {
+    if (value === EARLY_PASS) {
       gateError.style.opacity = 0;
       enterCurrentPage(true);
       return;
