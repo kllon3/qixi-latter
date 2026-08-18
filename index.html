@@ -69,8 +69,7 @@ body {
   width: 76px; height: 1px; margin: 29px auto 22px;
   background: linear-gradient(90deg, transparent, #d5adb3, transparent);
 }
-.gate-tip { font-size: 12px; color: #b09498; letter-spacing: .08em; }
-.gate-form { display: flex; gap: 9px; margin: 13px auto 0; max-width: 330px; }
+.gate-form { display: flex; gap: 9px; margin: 0 auto; max-width: 330px; }
 #gate-pass {
   min-width: 0; flex: 1; padding: 12px 13px;
   border: 1px solid #ead8d8; border-radius: 11px;
@@ -329,65 +328,9 @@ body {
 }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
-/* ============ 口令弹窗 ============ */
-#pw-modal {
-  position: fixed; inset: 0; z-index: 50;
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  background: rgba(96,66,66,.4);
-  opacity: 0; pointer-events: none;
-  transition: opacity .3s ease;
-}
-#pw-modal.show { opacity: 1; pointer-events: auto; }
-.pw-card {
-  position: relative;
-  width: min(86vw, 350px);
-  background: #fffdfa;
-  border-radius: 20px;
-  padding: 32px 26px 26px;
-  text-align: center;
-  box-shadow: 0 20px 50px rgba(90,60,60,.28);
-  transform: scale(.9) translateY(10px);
-  transition: transform .35s ease;
-}
-#pw-modal.show .pw-card { transform: scale(1) translateY(0); }
-#pw-modal.shake .pw-card { animation: shake .5s ease; }
 @keyframes shake {
   10%,90% { transform: translateX(-2px); } 20%,80% { transform: translateX(4px); }
   30%,50%,70% { transform: translateX(-7px); } 40%,60% { transform: translateX(7px); }
-}
-.pw-close {
-  position: absolute; top: 12px; right: 16px;
-  border: none; background: none;
-  font-size: 20px; color: #c9a5a5; cursor: pointer; line-height: 1;
-}
-.pw-title { font-size: 19px; color: #a96e6e; letter-spacing: .12em; }
-.pw-tip { margin-top: 6px; font-size: 12.5px; color: #c0a0a0; }
-.pw-heart { margin-top: 14px; font-size: 22px; color: #d98b8b; animation: heartBeat 1.8s ease-in-out infinite; }
-#pw-input {
-  width: 100%; margin-top: 18px;
-  padding: 13px 14px;
-  border: 1.5px solid #e6cccc; border-radius: 12px;
-  font-size: 16px; text-align: center;
-  color: #5c4a4a; background: #fff;
-  outline: none; font-family: inherit;
-  transition: border-color .25s;
-}
-#pw-input:focus { border-color: #cf7e7e; }
-#pw-btn {
-  width: 100%; margin-top: 14px;
-  padding: 13px;
-  border: none; border-radius: 12px;
-  background: linear-gradient(135deg, #e7a9a9, #cf7e7e);
-  color: #fff; font-size: 16px; letter-spacing: .35em; text-indent: .35em;
-  cursor: pointer; font-family: inherit;
-  transition: transform .2s, box-shadow .2s;
-}
-#pw-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(207,126,126,.4); }
-#pw-btn:active { transform: scale(.97); }
-#pw-err {
-  margin-top: 12px; font-size: 13px; color: #c27070;
-  opacity: 0; transition: opacity .25s;
 }
 
 /* ============ 信纸 ============ */
@@ -586,7 +529,6 @@ p.body:last-child { margin-bottom: 0; }
     </div>
     <div class="gate-time">2026 · 08 · 19&nbsp;&nbsp;22:00 开启</div>
     <div class="gate-divider"></div>
-    <div class="gate-tip">知道密码的话，可以提前看看</div>
     <div class="gate-form">
       <input id="gate-pass" type="password" autocomplete="off" maxlength="20" placeholder="请输入密码" aria-label="提前开启密码">
       <button id="gate-open" type="button">提前开启</button>
@@ -728,19 +670,6 @@ p.body:last-child { margin-bottom: 0; }
   </svg>
 </div>
 
-<!-- ============ 口令弹窗 ============ -->
-<div id="pw-modal" role="dialog" aria-modal="true" aria-labelledby="pw-title">
-  <div class="pw-card">
-    <button class="pw-close" id="pw-close" type="button" aria-label="关闭">×</button>
-    <div class="pw-title" id="pw-title">开启这封信</div>
-    <div class="pw-tip">（悄悄提示：名字拼音）</div>
-    <div class="pw-heart">💌</div>
-    <input id="pw-input" type="password" autocomplete="off" placeholder="请输入口令" maxlength="20">
-    <button id="pw-btn" type="button">开启</button>
-    <div id="pw-err">口令不对哦，再想想～</div>
-  </div>
-</div>
-
 <!-- ============ 信 ============ -->
 <main id="letter">
   <article class="paper">
@@ -817,13 +746,9 @@ p.body:last-child { margin-bottom: 0; }
 <script>
 (function () {
   'use strict';
-  var PASS = 'yafei';
-  var EARLY_PASS = '337722';
+  var EARLY_PASS = 'yafei';
   var cover = document.getElementById('cover');
-  var modal = document.getElementById('pw-modal');
   var letter = document.getElementById('letter');
-  var input = document.getElementById('pw-input');
-  var err = document.getElementById('pw-err');
 
   /* ---------- 倒计时入口 ---------- */
   var RELEASE_AT = new Date('2026-08-19T22:00:00+08:00').getTime();
@@ -933,38 +858,9 @@ p.body:last-child { margin-bottom: 0; }
   for (var fi = 0; fi < 14; fi++) spawnFloater();
   setInterval(spawnFloater, 2800);
 
-  /* ---------- 封面 → 口令 ---------- */
+  /* ---------- 封面 → 信稿 ---------- */
   document.getElementById('open-btn').addEventListener('click', function () {
-    modal.classList.add('show');
-    setTimeout(function () { input.focus(); }, 80);
-  });
-  document.getElementById('pw-close').addEventListener('click', function () {
-    modal.classList.remove('show');
-    err.style.opacity = 0;
-  });
-  modal.addEventListener('click', function (e) {
-    if (e.target === modal) {
-      modal.classList.remove('show');
-      err.style.opacity = 0;
-    }
-  });
-
-  function check() {
-    var v = (input.value || '').trim().toLowerCase();
-    if (v === PASS) {
-      unlock();
-      return;
-    }
-    err.style.opacity = 1;
-    modal.classList.remove('shake');
-    void modal.offsetWidth;
-    modal.classList.add('shake');
-    input.value = '';
-    input.focus();
-  }
-  document.getElementById('pw-btn').addEventListener('click', check);
-  input.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') check();
+    unlock();
   });
 
   /* ---------- 解锁 ---------- */
@@ -993,8 +889,6 @@ p.body:last-child { margin-bottom: 0; }
   }
 
   function unlock() {
-    try { sessionStorage.setItem('qixi_unlocked', '1'); } catch (e) {}
-    modal.classList.remove('show');
     cover.classList.add('fade-out');
     setTimeout(function () {
       cover.style.display = 'none';
@@ -1003,14 +897,6 @@ p.body:last-child { margin-bottom: 0; }
       observe();
     }, 800);
     launchBurst();
-  }
-
-  var already = false;
-  try { already = sessionStorage.getItem('qixi_unlocked') === '1'; } catch (e) {}
-  if (already) {
-    cover.style.display = 'none';
-    letter.classList.add('show');
-    setTimeout(observe, 120);
   }
 
   /* ---------- 点击爱心 ---------- */
