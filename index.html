@@ -70,7 +70,9 @@ body {
   background: linear-gradient(90deg, transparent, #d5adb3, transparent);
 }
 .gate-form { display: flex; gap: 9px; margin: 0 auto; max-width: 330px; }
-.gate-hint { margin-top: 10px; font-size: 10.5px; letter-spacing: .08em; color: rgba(176,148,152,.68); }
+.gate-hints { margin-top: 10px; min-height: 34px; }
+.gate-hint { font-size: 10.5px; line-height: 1.65; letter-spacing: .08em; color: rgba(176,148,152,.68); }
+#gate-hint-late { display: none; color: rgba(164,126,133,.82); }
 #gate-pass {
   min-width: 0; flex: 1; padding: 12px 13px;
   border: 1px solid #ead8d8; border-radius: 11px;
@@ -539,7 +541,10 @@ p.body:last-child { margin-bottom: 0; }
       <input id="gate-pass" type="password" autocomplete="off" maxlength="20" placeholder="请输入密码" aria-label="提前开启密码">
       <button id="gate-open" type="button">提前开启</button>
     </div>
-    <div class="gate-hint">提示：有些话，放在名字前面就懂了（总共7位字母）</div>
+    <div class="gate-hints">
+      <div class="gate-hint">提示一：答案藏在我最想对你说的话和今天的日子里</div>
+      <div class="gate-hint" id="gate-hint-late">提示二：“爱”的拼音，后面接两遍名字的最后一个字</div>
+    </div>
     <div id="gate-error" role="status">密码不对哦，再想想～</div>
   </div>
 </section>
@@ -749,15 +754,17 @@ p.body:last-child { margin-bottom: 0; }
 <script>
 (function () {
   'use strict';
-  var EARLY_PASS = 'aiyafei';
+  var EARLY_PASS = 'aifeifei';
   var cover = document.getElementById('cover');
   var letter = document.getElementById('letter');
 
   /* ---------- 倒计时入口 ---------- */
   var RELEASE_AT = new Date('2026-08-19T20:00:00+08:00').getTime();
+  var LATE_HINT_AT = new Date('2026-08-19T18:00:00+08:00').getTime();
   var gate = document.getElementById('countdown-gate');
   var gatePass = document.getElementById('gate-pass');
   var gateError = document.getElementById('gate-error');
+  var gateLateHint = document.getElementById('gate-hint-late');
   var gateTimer = null;
 
   function padTime(n) { return n < 10 ? '0' + n : String(n); }
@@ -773,6 +780,7 @@ p.body:last-child { margin-bottom: 0; }
   }
 
   function updateCountdown() {
+    if (Date.now() >= LATE_HINT_AT) gateLateHint.style.display = 'block';
     var remaining = RELEASE_AT - Date.now();
     if (remaining <= 0) {
       enterCurrentPage(false);
