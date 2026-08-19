@@ -788,7 +788,7 @@ p.body:last-child { margin-bottom: 0; }
 
   function startMusic() {
     musicToggle.classList.add('show');
-    bgm.volume = 0.38;
+    bgm.volume = 0.20;
     var playPromise = bgm.play();
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(function () { updateMusicButton(); });
