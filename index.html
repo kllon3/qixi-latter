@@ -70,6 +70,7 @@ body {
   background: linear-gradient(90deg, transparent, #d5adb3, transparent);
 }
 .gate-form { display: flex; gap: 9px; margin: 0 auto; max-width: 330px; }
+.gate-hint { margin-top: 10px; font-size: 10.5px; letter-spacing: .08em; color: rgba(176,148,152,.68); }
 #gate-pass {
   min-width: 0; flex: 1; padding: 12px 13px;
   border: 1px solid #ead8d8; border-radius: 11px;
@@ -532,12 +533,13 @@ p.body:last-child { margin-bottom: 0; }
       <div class="gate-unit"><span class="gate-number" id="gate-minutes">00</span><span class="gate-label">分</span></div>
       <div class="gate-unit"><span class="gate-number" id="gate-seconds">00</span><span class="gate-label">秒</span></div>
     </div>
-    <div class="gate-time">2026 · 08 · 19&nbsp;&nbsp;22:00 开启</div>
+    <div class="gate-time">2026 · 08 · 19&nbsp;&nbsp;20:00 开启</div>
     <div class="gate-divider"></div>
     <div class="gate-form">
       <input id="gate-pass" type="password" autocomplete="off" maxlength="20" placeholder="请输入密码" aria-label="提前开启密码">
       <button id="gate-open" type="button">提前开启</button>
     </div>
+    <div class="gate-hint">有些话，放在名字前面就懂了</div>
     <div id="gate-error" role="status">密码不对哦，再想想～</div>
   </div>
 </section>
@@ -747,12 +749,12 @@ p.body:last-child { margin-bottom: 0; }
 <script>
 (function () {
   'use strict';
-  var EARLY_PASS = 'yafei';
+  var EARLY_PASS = 'aiyafei';
   var cover = document.getElementById('cover');
   var letter = document.getElementById('letter');
 
   /* ---------- 倒计时入口 ---------- */
-  var RELEASE_AT = new Date('2026-08-19T22:00:00+08:00').getTime();
+  var RELEASE_AT = new Date('2026-08-19T20:00:00+08:00').getTime();
   var gate = document.getElementById('countdown-gate');
   var gatePass = document.getElementById('gate-pass');
   var gateError = document.getElementById('gate-error');
